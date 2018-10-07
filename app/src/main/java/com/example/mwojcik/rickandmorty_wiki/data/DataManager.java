@@ -12,6 +12,8 @@ import com.example.mwojcik.rickandmorty_wiki.data.network.episode.EpisodeService
 import com.example.mwojcik.rickandmorty_wiki.data.network.location.LocationAPI;
 import com.example.mwojcik.rickandmorty_wiki.data.network.location.LocationService;
 
+import java.util.List;
+
 //TODO: Cleanup - Different Data Managers for different services
 public class DataManager {
 
@@ -52,5 +54,17 @@ public class DataManager {
 
     public void getEpisodesList(RemoteCallback<ApiResponse<Episode>> listener){
         mEpisodeService.getEpisodes().enqueue(listener);
+    }
+
+    public void getEpisodeById(int id, RemoteCallback<Episode> listener){
+        mEpisodeService.getEpisodeById(id).enqueue(listener);
+    }
+
+    public void getEpisodesByIds(String ids, RemoteCallback<List<Episode>> listener){
+        mEpisodeService.getEpisodesByIds(ids).enqueue(listener);
+    }
+
+    public void getLocationById(String id, RemoteCallback<Location> listener){
+        mLocationService.getLocationById(id).enqueue(listener);
     }
 }

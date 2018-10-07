@@ -19,15 +19,28 @@ public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.O
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        //super.onScrolled(recyclerView, dx, dy);
         int lastVisibleItemPosition = 0;
+
+        /***
+         * total item count is a total item count that is loaded into recyclerview
+         */
         int totalItemCount = layoutManager.getItemCount();
 
-
+        /***
+         * That gives us the adapter position of the last visible view.
+         * This position does not include adapter changes that were dispatched after the last layout pass.
+         * Ex. if we see 5 completely visible items and 1 item halfly visible (cutted at bottom), than the
+         * value here is 5. If we scroll to 7 visible items, than its seven. If we go back to 5 - 5 back again.
+         */
         lastVisibleItemPosition = ((LinearLayoutManager) layoutManager)
                 .findLastVisibleItemPosition();
 
 
-        if (totalItemCount < previousTotalItemCount) { // List was cleared
+        /***
+         * The list was cleared
+         */
+        if (totalItemCount < previousTotalItemCount) {
             currentPage = STARTING_PAGE_INDEX;
             previousTotalItemCount = totalItemCount;
             if (totalItemCount == 0) {
@@ -36,7 +49,8 @@ public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.O
         }
 
         /**
-         * If still loading - check for dataset change. If yes than update current page and total items count
+         * If was loading - check if data count has changed.
+         * If yes than update current page and total items count
          */
         if (mLoading && (totalItemCount > previousTotalItemCount + 1)) {
             mLoading = false;
@@ -44,7 +58,7 @@ public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.O
         }
 
         /**
-         * If not loading - check if should get more data
+         * It if is not loading, than check if should get new data for current page and update it.
          */
         if (!mLoading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
             currentPage++;
@@ -53,5 +67,9 @@ public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.O
         }
     }
 
+    /***
+     * Called when there are only 5 more visible items.
+     * @param page number of the page (for which data should be loaded).
+     */
     public abstract void onLoadMore(int page);
 }

@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">RickAndMorty_Wiki</string>
+    <string name="app_name">Rick And Morty Wiki</string>
+    <string name="characters_list_title">Characters</string>
+    <string name="characters_list_search_hint">search</string>
+    <string name="characters_details_title">Details</string>
+    <string name="characters_details_status">STATUS</string>
+    <string name="characters_details_species">SPECIES</string>
+    <string name="characters_details_gender">GENDER</string>
+    <string name="characters_details_origin">ORIGIN</string>
+    <string name="characters_details_location">LAST LOCATION</string>
+    <string name="characters_details_episodes">EPISODES:</string>
 </resources>

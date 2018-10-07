@@ -43,7 +43,7 @@ public class CharactersListAdapter extends RecyclerView.Adapter<CharactersListAd
                 .fit()
                 .centerCrop()
                 .error(R.mipmap.ic_launcher_round)
-                .placeholder(R.mipmap.ic_launcher_round)
+                .placeholder(R.drawable.rickandmorty_icon)
                 .into(holder.characterIV);
         holder.characterNameTV.setText(character.getName());
         holder.characterSpeciesTV.setText(character.getSpecies());

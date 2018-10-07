@@ -6,4 +6,6 @@
     <color name="characterAliveBackground">#344ed16d</color>
     <color name="characterDeadBackground">#5eff0004</color>
     <color name="characterUnknownBackground">#5b736c6c</color>
+    <color name="characterDetailsBackground">#333333</color>
+    <color name="characterListBackground">#ffffff</color>
 </resources>

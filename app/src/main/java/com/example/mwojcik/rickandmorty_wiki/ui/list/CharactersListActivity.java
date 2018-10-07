@@ -1,5 +1,6 @@
 package com.example.mwojcik.rickandmorty_wiki.ui.list;
 
+import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,11 @@ import android.view.MenuItem;
 import com.example.mwojcik.rickandmorty_wiki.R;
 import com.example.mwojcik.rickandmorty_wiki.data.DataManager;
 import com.example.mwojcik.rickandmorty_wiki.data.model.character.Character;
+import com.example.mwojcik.rickandmorty_wiki.ui.character_details.CharacterDetailsActivity;
+import com.example.mwojcik.rickandmorty_wiki.utils.QuotesUtils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +32,6 @@ public class CharactersListActivity extends AppCompatActivity implements Charact
     private RecyclerView recyclerView;
     private CharactersListAdapter adapter;
     private List<Character> characterList;
-    //private AlertDialog dialog;
-
     private String searchQuery;
 
 
@@ -37,14 +41,20 @@ public class CharactersListActivity extends AppCompatActivity implements Charact
         setContentView(R.layout.activity_characters_list);
         recyclerView = findViewById(R.id.characters_list_recycler_view);
 
+        //ca-app-pub-3940256099942544/6300978111 - test
+        //ca-app-pub-1028371747184544/4713922518 - moje
+
+        //TODO: Activity extends Application - put it there
+        MobileAds.initialize(this, "ca-app-pub-1028371747184544~9384204386");
+        AdView adView;
+        adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
         //TODO: ActionBar -> Toolbar
-        getSupportActionBar().setTitle("Characters");
+        getSupportActionBar().setTitle(R.string.characters_list_title);
 
         //TODO: Better progress dialog
-//        dialog = new AlertDialog.Builder(CharactersListActivity.this)
-//                .setCancelable(false)
-//                .setView(R.layout.progress_layout)
-//                .create();
 
         //TODO: put in separate method - like initViews()
         characterList = new ArrayList<>();
@@ -57,6 +67,8 @@ public class CharactersListActivity extends AppCompatActivity implements Charact
         listPresenter = new CharacterListPresenter(DataManager.getInstance());
         listPresenter.attachView(this);
         listPresenter.onInitialListRequested();
+
+        QuotesUtils.getQuote();
     }
 
     @Override
@@ -73,13 +85,11 @@ public class CharactersListActivity extends AppCompatActivity implements Charact
 
     @Override
     public void showCharacters(List<Character> characterList) {
-        Log.d(TAG, "showCharacters() - with: " + characterList);
         adapter.addItems(characterList);
     }
 
     @Override
     public void showSearchedCharacters(List<Character> characterList) {
-        Log.d(TAG, "showSearchedCharacters() - with: " + characterList);
         adapter.addItems(characterList);
     }
 
@@ -107,7 +117,6 @@ public class CharactersListActivity extends AppCompatActivity implements Charact
 
     @Override
     public void showError(String errorMessage) {
-        Log.e(TAG, "showError(): " + errorMessage);
         //TODO: check "pages" for current response and call only for new page number if <= pages (currently causes 404)
         //TODO: check for errors logic
         if (!errorMessage.equalsIgnoreCase("Default 404 Not Found")){
@@ -134,9 +143,12 @@ public class CharactersListActivity extends AppCompatActivity implements Charact
     public void onCharacterClick(Character character, int position) {
         //TODO: Open new Activity via presenter
         //TODO: Add method to contract and handle it (open new activity) - better pass object or call backend in activity?
-        Log.d(TAG, "character clicked: " + character + ", at position: " + position );
 //        Intent intent = new Intent(CharactersListActivity.this, CharacterDetailsActivity.class);
 //        intent.putExtra("characterId", character.getId());
+        //TODO: Static key String for that intent character object
+        Intent intent = new Intent(CharactersListActivity.this, CharacterDetailsActivity.class);
+        intent.putExtra("CharacterClicked", character);
+        startActivity(intent);
     }
 
     @Override
@@ -157,11 +169,13 @@ public class CharactersListActivity extends AppCompatActivity implements Charact
         return false;
     }
 
+    /***
+     * Setts up a scroll listener for given recycler view by it's layout manager.
+     */
     private EndlessRecyclerViewOnScrollListener setupScrollListener(RecyclerView.LayoutManager layoutManager){
         return new EndlessRecyclerViewOnScrollListener((LinearLayoutManager) layoutManager) {
             @Override
             public void onLoadMore(int page) {
-                Log.d(TAG, "Getting more data for page: " + page);
                 listPresenter.onListEndReached(String.valueOf(page), searchQuery);
             }
         };

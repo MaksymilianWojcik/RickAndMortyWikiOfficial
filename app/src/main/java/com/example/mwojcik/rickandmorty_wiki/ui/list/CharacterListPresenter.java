@@ -39,7 +39,6 @@ public class CharacterListPresenter extends BasePresenter<CharacterListContract.
 
     private void getCharacters(String pageNumber, final String searchQuery){
         if (!isViewAttached()){
-            Log.w(TAG, "View is not attached");
             return;
         }
 
@@ -48,7 +47,6 @@ public class CharacterListPresenter extends BasePresenter<CharacterListContract.
             @Override
             public void onSuccess(ApiResponse<Character> response) {
                 if (!isViewAttached()){
-                    Log.w(TAG, "View is not attached");
                     return;
                 }
                 mView.hideProgres();
@@ -57,8 +55,6 @@ public class CharacterListPresenter extends BasePresenter<CharacterListContract.
                     mView.showEmpty();
                     return;
                 }
-                Log.d(TAG, "response pages: " + response.getInfo().getPages()
-                        + ", results count: " + responseResults.size());
 
                 //TODO: Do I really need those two separate methods? They do the same - think for future cases
                 if (TextUtils.isEmpty(searchQuery)){
@@ -90,7 +86,6 @@ public class CharacterListPresenter extends BasePresenter<CharacterListContract.
 
     private boolean checkIfViewAttached(){
         if (!isViewAttached()){
-            Log.w(TAG, "View is not attached");
             return false;
         } else {
             return true;
