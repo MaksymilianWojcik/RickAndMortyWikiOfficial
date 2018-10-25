@@ -31,4 +31,5 @@ Still todo:
 - locations details (maybe also a list)
 - bottom navigation bar for episodes / locations / characters
 - random Rick and Morty quotes retrieved from firebase database
+- dagger 2
 - tests
