@@ -1,7 +1,7 @@
 # RickAndMortyWikiOfficial
 Rick and Morty Wiki app project
 
-
+<p> App is available on play store: https://play.google.com/store/apps/details?id=com.mwojcik.rickandmorty_wiki </p>
 <p>The fan made application for Rick and Morty TV series. Rick and Morty is created by Justin Roiland and Dan Harmon for Adult Swim. The data and images are used without claim of ownership and belong to their respective owners.
 </p>
 The app was created for educational purposes and so as a programming exercise for the android platform.
